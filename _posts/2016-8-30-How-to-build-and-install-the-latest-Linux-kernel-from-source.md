@@ -17,7 +17,7 @@ If you plan to work on the internals of the Linux kernel or change its behavior,
 
 Here are a few specific cases where you’ll need to know how to work with the kernel’s source code:
 
-1. You want to write a really cool ‘Hello world’ program. (Each time you implement your own system call or modify kernel source code, you will need to recompile the kernel to implement the changes)
+1. You want to write a really cool ‘Hello world’ program. (Each time you [implement your own system call](https://mon95.github.io/Implementing-a-system-call-in-linux-kernel-4-7-1/) or modify kernel source code, you will need to recompile the kernel to implement the changes)
 
 2. You want to enable experimental features on your kernel that are not enabled by default (or, disable default features that you don’t want)
 
@@ -34,6 +34,7 @@ You will need to install a few packages before you can get started. Use the foll
 
 ```
 sudo apt-get update
+
 sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc
 ```
 
@@ -52,7 +53,11 @@ Change to the directory where the file was downloaded and extract using:
   
 ```
 tar xf linux-4.7.1.tar.xz
+```
+
 Change to the extracted linux-4.7.1 directory.
+
+```
 cd linux-4.7.1
 ```
 
@@ -67,12 +72,13 @@ An easy and straightforward way to do this is to first copy your existing kernel
 
 ```
 cp /boot/config-$(uname -r) .config   
+
 make menuconfig
 ```
 
 This is the part where you could end up removing support for a device driver or do something of the sort which will eventually result in a broken kernel. If you are unsure about making changes, just save and exit.
 
-<i>Note: One of the alternatives to menuconfig is an interactive command line interface accessible using ‘make config’. This helps you configure everything from scratch. Do not use this. You will be asked over a thousand yes/no questions about enabling or disabling modules, which I promise is no fun whatsoever. I did try this out once and somehow managed to mess up the display driver configurations.</i>
+Note: One of the alternatives to menuconfig is an interactive command line interface accessible using ‘make config’. This helps you configure everything from scratch. <b>Do not use this.</b> You will be asked over a thousand yes/no questions about enabling or disabling modules, which I promise is no fun whatsoever. I did try this out once and somehow managed to mess up the display driver configurations.
 
 gconfig and xconfig are alternate GUI based configuration tools that you could use. I haven’t tried these myself. For this, you’ll need to use make gconfig (or make xconfig) instead of make menuconfig.
 
@@ -81,6 +87,7 @@ Now, we’re all set!
 To compile the kernel and its modules, we use the <b>make</b> command.
 
 This is followed by using <b>make modules_install</b> to install the kernel modules.
+
 Finally, we use <b>make install</b> to copy the kernel and the .config file to the /boot folder and to generate the system.map file (which is a symbol table used by the kernel).
 
 These three steps put together usually take up a lot of time. Use the following command to perform the above tasks:
@@ -121,7 +128,9 @@ Meaning, just remember the following:
 
 ```
 cp /boot/config-$(uname -r) .config
+
 make menuconfig
+
 sudo make -j 4 && sudo make modules_install -j 4 && sudo make install -j 4
 ```
 

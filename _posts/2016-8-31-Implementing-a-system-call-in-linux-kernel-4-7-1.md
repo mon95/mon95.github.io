@@ -8,7 +8,7 @@ In the previous post, I had written about compiling and installing the Linux ker
 
 I decided to go with a non-trivial system call (as opposed to implementing a ‘hello world’ system call) as this could help you get started with reading Linux Source Code and understanding various headers, functions and data structures that are used internally.
 
-<i>(Note: All of this could have been done in conjunction with what was talked about in the previous post. I’ve only put them in separate articles to avoid any sort of confusion. This article is about implementing your own system call, recompiling your kernel and seeing your system call in action)</i>i>
+<i>(Note: All of this could have been done in conjunction with what was talked about in the previous post. I’ve only put them in separate articles to avoid any sort of confusion. This article is about implementing your own system call, recompiling your kernel and seeing your system call in action)</i>
 
 So, I’m going to walk you through the process of implementing a system call which iterates over all processes and prints its details that can be accessed via. the underlying ‘task_struct’ data structure, to the kernel log.
 
@@ -19,6 +19,7 @@ Create a new directory, say ‘info’ and change to this directory. We’ll mai
 
 ```
 mkdir info
+
 cd info/ 
 ```
 
