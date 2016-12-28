@@ -31,6 +31,7 @@ In each of the above situations, learning how to build the kernel from source wi
 A Linux based Operating System (I tried this on Ubuntu 14.04 LTS and the instructions written here are for the same).
 
 You will need to install a few packages before you can get started. Use the following commands for the same.
+
 ```
 sudo apt-get update
 sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc
@@ -40,6 +41,7 @@ You will also need up to at least 12 GB of free space on disk, an internet conne
 
 ### Downloading and extracting the latest kernel source
 To check your current kernel version, open the terminal and type:
+
 ```
 uname -r
 ```
@@ -47,6 +49,7 @@ uname -r
 Go to kernel.org and download the latest stable version. At the time of writing this, the latest stable kernel version was 4.7.1, and I will refer to the same in this article. (Note: Try to avoid downloading source from other websites)
 
 Change to the directory where the file was downloaded and extract using:
+  
 ```
 tar xf linux-4.7.1.tar.xz
 Change to the extracted linux-4.7.1 directory.
@@ -69,29 +72,57 @@ make menuconfig
 
 This is the part where you could end up removing support for a device driver or do something of the sort which will eventually result in a broken kernel. If you are unsure about making changes, just save and exit.
 
-Note: One of the alternatives to menuconfig is an interactive command line interface accessible using ‘make config’. This helps you configure everything from scratch. Do not use this. You will be asked over a thousand yes/no questions about enabling or disabling modules, which I promise is no fun whatsoever. I did try this out once and somehow managed to mess up the display driver configurations.
+<i>Note: One of the alternatives to menuconfig is an interactive command line interface accessible using ‘make config’. This helps you configure everything from scratch. Do not use this. You will be asked over a thousand yes/no questions about enabling or disabling modules, which I promise is no fun whatsoever. I did try this out once and somehow managed to mess up the display driver configurations.</i>
+
 gconfig and xconfig are alternate GUI based configuration tools that you could use. I haven’t tried these myself. For this, you’ll need to use make gconfig (or make xconfig) instead of make menuconfig.
+
 Now, we’re all set!
-To compile the kernel and its modules, we use the make command.
-This is followed by using make modules_install to install the kernel modules.
-Finally, we use make install to copy the kernel and the .config file to the /boot folder and to generate the system.map file (which is a symbol table used by the kernel).
+
+To compile the kernel and its modules, we use the <b>make</b> command.
+
+This is followed by using <b>make modules_install</b> to install the kernel modules.
+Finally, we use <b>make install</b> to copy the kernel and the .config file to the /boot folder and to generate the system.map file (which is a symbol table used by the kernel).
+
 These three steps put together usually take up a lot of time. Use the following command to perform the above tasks:
+
+```
 sudo make -j 4 && sudo make modules_install -j 4 && sudo make install -j 4
+```
+
 Note: I have used the -j option to specify the number of cores to be used. This tends to speed up the process considerably. You can use nproc to check the number of processing units available. In my case, it was 4 cores.
+
 Ideally, you shouldn’t need sudo privileges, but, I was running into problems when I didn’t run it with sudo privileges.
-Final steps
+
+### Final steps
 Once the kernel and its modules are compiled and installed, we want to be using the new kernel the next time we boot up.
+
 For this to happen, we need to use the following command:
+
+```
 update-initramfs -c -k 4.7.1   
+```
+
 Then, use the following command, which automatically looks for the kernels present in the /boot folder and adds them to the grub’s config file.
+
+```
 update-grub  
+```
+
 Now, restart the system and you should see that the new kernel is added to the boot loader entries.
+
 On following the instructions, assuming there’s enough space available on disk and the current kernel configuration works fine, you shouldn’t encounter any problems. Note that you could always use the old kernel version in case of any problem and try the whole thing again!
+
 The command uname -r should now show you the current kernel version being used.
-An important note
-The above steps are needed to build the kernel from source, for the first time. Once, this is done at least once and a new kernel image is ready, making changes and writing our own modules is simple. You will only be using the steps listed under Configuring and Compiling each time something new is to be implemented or configured differently.
+
+### An important note
+The above steps are needed to build the kernel from source, for the first time. Once, this is done at least once and a new kernel image is ready, making changes and writing our own modules is simple. You will only be using the steps listed under <b>Configuring and Compiling</b> each time something new is to be implemented or configured differently.
+
 Meaning, just remember the following:
+
+```
 cp /boot/config-$(uname -r) .config
 make menuconfig
 sudo make -j 4 && sudo make modules_install -j 4 && sudo make install -j 4
+```
+
 I must give credit to the following while resources — they were hugely helpful with this task: Ramkitech.com, askubuntu.com, kernel.org and cyberciti.biz
