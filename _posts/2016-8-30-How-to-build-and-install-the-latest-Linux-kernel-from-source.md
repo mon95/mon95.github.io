@@ -125,4 +125,4 @@ make menuconfig
 sudo make -j 4 && sudo make modules_install -j 4 && sudo make install -j 4
 ```
 
-I must give credit to the following while resources — they were hugely helpful with this task: Ramkitech.com, askubuntu.com, kernel.org and cyberciti.biz
+I must give credit to the following worthwhile resources — they were hugely helpful with this task: Ramkitech.com, askubuntu.com, kernel.org and cyberciti.biz
