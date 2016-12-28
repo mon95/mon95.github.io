@@ -2,7 +2,7 @@
 layout: post
 title: Implementing a system call in Linux Kernel 4.7.1
 ---
-![system call implementation](https://cdn-images-1.medium.com/max/800/1*4Tc89BJaeY-jAunLaeT9MA.png)
+![system call implementation](/images/bp2pic2.png)
 
 In the previous post, I had written about compiling and installing the Linux kernel from source. Now, let’s see how we can implement a non trivial system call on the newly installed kernel.
 
@@ -104,7 +104,7 @@ It should read:
 core -y  += kernel/ mm/ fs/ ipc/ security/ crypto/ block/ info/
 ```
 
-![screenshot1](https://cdn-images-1.medium.com/max/800/1*pmxmVW9GyOkb4wEURsR-1g.png)
+![screenshot1](/images/bp2pic1.png)
 
 This tells the compiler that the source files of our new system call can be found in the info/ directory.
 
@@ -122,7 +122,7 @@ In kernel 4.7.1, it is present in /arch/x86/entry/syscalls/syscall_64.tbl.
 
 Now, edit the file as shown to include the new system call number and its entry point. Just note the system call number for reference. <i>(Ideally, we should be implementing a wrapper for our system call and will never be using the number directly. But, in this example, I’m going to use the system call number to test the system call)</i>
 
-![screenshot2](https://cdn-images-1.medium.com/max/800/1*4Tc89BJaeY-jAunLaeT9MA.png)
+![screenshot2](/images/bp2pic2.png)
 
 ```
 318 common getrandom  sys_getrandom
@@ -151,7 +151,7 @@ Add the following line to the end of the file (before the #endif) as shown:
 asmlinkage long sys_hello(void)
 ```
 
-![screenshot3](https://cdn-images-1.medium.com/max/800/1*4AW2BLjsfXjAb5o2feF-CA.png)
+![screenshot3](/images/bp2pic3.png)
 
 And, we’re done!
 
