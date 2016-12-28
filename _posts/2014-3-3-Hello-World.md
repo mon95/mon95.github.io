@@ -2,44 +2,73 @@
 layout: post
 title: How to build and install the latest Linux kernel from source
 ---
+![A map of the Linux kernel](https://cdn-images-1.medium.com/max/2000/1*4hAdaZsw1dptEybpt56VJQ.gif)
 
-How to build and install the latest Linux kernel from source
-
-A map of the Linux kernel
 I just finished my first assignment for a course on Advanced Operating Systems. And I decided to document my approach for building the Linux kernel from source and implementing my own system call.
+
 There are a number of blogs that already tell you how to go about doing this, but some of them are outdated, and some seem unnecessarily complicated. My goal is to present a straightforward approach for doing this, which should hopefully help you save a lot of time.
+
 Compiling the Linux Kernel from source can seem like a daunting task, even to someone who’s pretty comfortable with computers in general. It can also get really irritating if you aren’t following the right instructions.
+
 So, here’s a guide to help you through the process of building the kernel from source, and it’s a guide that works! You will not have to worry about messing up your system or wasting your time.
-Why build the kernel from source?
+
+### Why build the kernel from source?
 If you plan to work on the internals of the Linux kernel or change its behavior, you’ll need to recompile the kernel on your system.
+
 Here are a few specific cases where you’ll need to know how to work with the kernel’s source code:
-You want to write a really cool ‘Hello world’ program. (Each time you implement your own system call or modify kernel source code, you will need to recompile the kernel to implement the changes)
-You want to enable experimental features on your kernel that are not enabled by default (or, disable default features that you don’t want)
-You want to debug kernel source code, enable support for a new piece of hardware, or make modifications to its existing configurations
-You’re doing a course on Advanced Operating Systems and have no choice but to do this!
+
+1. You want to write a really cool ‘Hello world’ program. (Each time you implement your own system call or modify kernel source code, you will need to recompile the kernel to implement the changes)
+
+2. You want to enable experimental features on your kernel that are not enabled by default (or, disable default features that you don’t want)
+
+3. You want to debug kernel source code, enable support for a new piece of hardware, or make modifications to its existing configurations
+
+4. You’re doing a course on Advanced Operating Systems and have no choice but to do this!
+
 In each of the above situations, learning how to build the kernel from source will come in handy.
-What you’ll need
+
+### What you’ll need
 A Linux based Operating System (I tried this on Ubuntu 14.04 LTS and the instructions written here are for the same).
+
 You will need to install a few packages before you can get started. Use the following commands for the same.
+```
 sudo apt-get update
 sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc
+```
+
 You will also need up to at least 12 GB of free space on disk, an internet connection to download the source code, and a lot of time (about 45 to 90 minutes).
-Downloading and extracting the latest kernel source
+
+### Downloading and extracting the latest kernel source
 To check your current kernel version, open the terminal and type:
+```
 uname -r
+```
+
 Go to kernel.org and download the latest stable version. At the time of writing this, the latest stable kernel version was 4.7.1, and I will refer to the same in this article. (Note: Try to avoid downloading source from other websites)
+
 Change to the directory where the file was downloaded and extract using:
+```
 tar xf linux-4.7.1.tar.xz
 Change to the extracted linux-4.7.1 directory.
 cd linux-4.7.1
+```
+
 It should contain folders called arch, fs, crypto, etc.
-Configuring and Compiling:
+
+### Configuring and Compiling:
 Before compiling the kernel, we need to configure which modules are to be included and which ones are to be left out.
+
 There are many ways to go about doing this.
+
 An easy and straightforward way to do this is to first copy your existing kernel config file and then use ‘menuconfig’ to make changes (if necessary). This is the fastest way to do it and probably, the safest.
+
+```
 cp /boot/config-$(uname -r) .config   
 make menuconfig
+```
+
 This is the part where you could end up removing support for a device driver or do something of the sort which will eventually result in a broken kernel. If you are unsure about making changes, just save and exit.
+
 Note: One of the alternatives to menuconfig is an interactive command line interface accessible using ‘make config’. This helps you configure everything from scratch. Do not use this. You will be asked over a thousand yes/no questions about enabling or disabling modules, which I promise is no fun whatsoever. I did try this out once and somehow managed to mess up the display driver configurations.
 gconfig and xconfig are alternate GUI based configuration tools that you could use. I haven’t tried these myself. For this, you’ll need to use make gconfig (or make xconfig) instead of make menuconfig.
 Now, we’re all set!
