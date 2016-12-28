@@ -2,7 +2,7 @@
 layout: post
 title: How to build and install the latest Linux kernel from source
 ---
-![A map of the Linux kernel](bp1pic1.gif)
+![A map of the Linux kernel](/images/bp1pic1.gif)
 
 I just finished my first assignment for a course on Advanced Operating Systems. And I decided to document my approach for building the Linux kernel from source and implementing my own system call.
 
