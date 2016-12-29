@@ -37,7 +37,7 @@ As the main objective is to simply understand, appreciate and use the fork, dup,
 
 5. We redirect output to a specific file (here, output.txt). (Note that by default, output is directed to stdout)
 
-6. Commands handled only include the ‘|’, ‘>’ and ‘>>’ operators (i.e., operators like ‘&’ and ‘<’ are not supported. But, the same code can be easily extended to do the same)
+6. Commands handled only include the "|", ">" and ">>" operators (i.e., operators like "&" and "<" are not supported. But, the same code can be easily extended to do the same)
 
 With the above assumptions, it’s easy to focus on just doing the important stuff! (For, example, the whole thing can be made quite sophisticated using a better parser or with a little extra code we can handle built-in commands. But we don’t really have to do all of that now!)
 
@@ -112,7 +112,9 @@ arg = strtok(line, tok_delimiters);
 }
 ```
 
-Here, we use [strtok()](http://stackoverflow.com/questions/21097253/how-does-the-strtok-function-in-c-work?noredirect=1&lq=1) to tokenize the input. Here, we parse the command (including the ‘|’, ‘>’ or ‘<’ operators, if any) to return an array of args, which is later used to execute them.
+Here, we use [strtok()](http://stackoverflow.com/questions/21097253/how-does-the-strtok-function-in-c-work?noredirect=1&lq=1) to tokenize the input. 
+
+Here, we parse the command (including the "|", ">" or ">>" operators, if any) to return an array of args, which is later used to execute them.
 
 ### The execution of the parsed commands:
 We’ll need to define a couple of functions that handle the essential execution logic. For this, include a header file called ‘ execute.h’ as follows:
@@ -158,7 +160,7 @@ int argsLength(char **args) {
 }
 ```
 
-* Iterate and get the positions(if present) of the ‘>’, ‘>>’ and the ‘|’ operators (Irrelevant note: this implementation returns the position of the last ‘|’ found)
+* Iterate and get the positions(if present) of the ">", ">>" and the "|" operators (Irrelevant note: this implementation returns the position of the last "|" found)
 
 ```
 int execute(char** args) {
@@ -181,7 +183,7 @@ for(i=0;i<len;i++) {
 ```
 
 * Handle on a case by case basis:
-Case 1: No |, > or >> operator. Redirect output to OUTPUT.txt
+**Case 1**: No |, > or >> operator. Redirect output to OUTPUT.txt
 
 ```
 // ...
@@ -243,7 +245,7 @@ Now, on execution, the outputs are written to OUTPUT.txt!
 
 The parent process simply waits for the child process to finish execution.
 
-Case 2: ‘>’ operator found or ‘>>’ found.
+**Case 2**: ‘>’ operator found or ‘>>’ found.
 
 The only difference here is that we have to modify our output file descriptor accordingly.
 
@@ -269,7 +271,7 @@ else {
 }
 ```
 
-Case 3: ‘|’ operator is present.
+**Case 3**: ‘|’ operator is present.
 
 For this particular case, we need to parse and extract the individual commands that are being piped and store them in a separate array.
 
