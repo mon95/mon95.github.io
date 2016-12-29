@@ -26,19 +26,28 @@ In this case, if you know some basic(and I mean very basic) C programming, you c
 The end product will be a simple batch job executer that takes in an input file and executes single line commands from the file, very similar to how the bash would execute a shell script file. [Here’s a link to the code](https://github.com/mon95/Batch-Job-Executer). (Do check the github page for exact design specifications and consolidated code)
 
 As the main objective is to simply understand, appreciate and use the fork, dup, exec and pipe system calls, we’re only going to be designing a simplified version of the same. Some of the assumptions we are going to make are:
+
 1. Batch file contains only single line commands. (i.e., commands are not extended to multiple lines using ‘\’)
+
 2. Built-in shell commands are not used. (Can be easily incorporated, but doesn’t really contribute to understanding the system calls listed above)
+
 3. Only single line comments using ‘#’ preceded and followed by a space are handled. (i.e., Handling of multi line comments using /* .. */ is not supported)
+
 4. Only commands between a %BEGIN and a %END are executed. All other commands are ignored.
+
 5. We redirect output to a specific file (here, output.txt). (Note that by default, output is directed to stdout)
+
 6. Commands handled only include the ‘|’, ‘>’ and ‘>>’ operators (i.e., operators like ‘&’ and ‘<’ are not supported. But, the same code can be easily extended to do the same)
 
 With the above assumptions, it’s easy to focus on just doing the important stuff! (For, example, the whole thing can be made quite sophisticated using a better parser or with a little extra code we can handle built-in commands. But we don’t really have to do all of that now!)
 
 ### The basic outline
 We’ll need:
+
 1. A function that parses the input line (i.e., the command)
+
 2. Function(s) that help with the execution of the parsed commands
+
 3. A driver function (i.e., the main function)
 
 ### The parsing:
