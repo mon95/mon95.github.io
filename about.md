@@ -20,7 +20,7 @@ Sreehari
 
 ### Contact me
 
-[email](mailto:sree.mufc@gmail.com)
+[email](mailto:sreehari@ssreehari.com)
 [facebook](https://www.facebook.com/sree.hari.332)
 [github](https://github.com/mon95)
 [twitter](https://www.twitter.com/Sreehari95)
